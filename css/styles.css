@@ -260,7 +260,27 @@ button:hover {
 .topnav li {
 	display:inline-block;
 }
-  
+
+/* dropdown */
+option, select {
+	margin-top:2px;
+	margin-bottom:2px;
+	background-color: #232323;
+	opacity: 1;
+	font-size: 14px;
+	color:#D7D7D7;
+	border-radius: 10px;
+	border-color:#D7D7D7;
+	border-width: 1px;
+	border-style: solid;
+	padding: 0px 7px;
+}
+
+select::-webkit-scrollbar {
+	width: 20em;
+	background-color:#232323;
+}
+
 .topnav li.active, .topnav a.active {
 	/* background-color: #454545; */
 	color: white;
