@@ -184,7 +184,7 @@ function startClick() {
 
 	//initialize times based on current and end times
 	// dayjs.tz.setDefault(timezone);
-	var today = dayjs()
+	var today = dayjs();
 	var endArr = [parseInt(today.year()), today.month()+1, today.date()];
 	var endTime = dayjs(endArr).hour(hour).minute(0).second(0).millisecond(0);
 	
@@ -198,7 +198,7 @@ function startClick() {
 		diffMins = 60 + diffMins;
 	}
 	if(diffHours < 0) {
-		diffHours = 12 + diffHours;
+		diffHours = 24 + diffHours;
 	}
 
 	//fix formatting
