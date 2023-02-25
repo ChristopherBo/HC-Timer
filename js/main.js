@@ -169,7 +169,11 @@ function decrementTimestamp(time) {
 	// alert(res);
 	$('stopwatch').innerText = res;
 	// return res;
-	setTimeout(decrementTimestamp, 1000);
+	if(seconds == 0) {
+		startClick(); //sync up to the servers every minute
+	} else {
+		setTimeout(decrementTimestamp, 1000);
+	}
 }
 
 function startClick() {
@@ -185,7 +189,7 @@ function startClick() {
 	var endTime = dayjs(endArr).hour(hour).minute(0).second(0).millisecond(0);
 	
 	//take difference
-	var diffMins = endTime.minute()-today.minute();
+	var diffMins = endTime.minute()-today.minute()-1;
 	var diffHours = endTime.hour()-today.hour()-1;
 	var diffSeconds = 60 - today.second();
 
@@ -213,7 +217,7 @@ function startClick() {
 	// var endTimeParsed = endTime.toString().split(" ")[4];
 	//alert(endTimeParsed);
 	$('stopwatch').innerText = diff;
-	setTimeout(decrementTimestamp, 1000);
+	decrementTimestamp();
 }
 
 function sleep(ms) {
