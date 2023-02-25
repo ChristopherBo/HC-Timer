@@ -161,6 +161,11 @@ function decrementTimestamp(time) {
 	
 	//return
 	var res = hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
+	if(res == "0:05:00" || res == "0:04:58") {
+		document.body.style.backgroundColor = "red";
+	} else {
+		document.body.style.backgroundColor = "#232323";
+	}
 	// alert(res);
 	$('stopwatch').innerText = res;
 	// return res;
