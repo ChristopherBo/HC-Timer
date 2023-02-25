@@ -1,3 +1,4 @@
+var timeouts = [];
 var dayjs = require('dayjs');
 var dayjsutc = require('dayjs/plugin/utc')
 var dayjstimezone = require('dayjs/plugin/timezone') // dependent on utc plugin
@@ -172,11 +173,17 @@ function decrementTimestamp(time) {
 	if(seconds == 0) {
 		startClick(); //sync up to the servers every minute
 	} else {
-		setTimeout(decrementTimestamp, 1000);
+		timeouts.push(setTimeout(decrementTimestamp, 1000));
 	}
 }
 
 function startClick() {
+	// alert("hi");
+	for (var i = 0; i < timeouts.length; i++) {
+		clearTimeout(timeouts[i]);
+	}
+	timeouts = [];
+	// alert("hello")
 	const time = $('time-dropdown').value;
 	const timetokens = time.trim().split(":");
 	const hour = parseInt(timetokens[0]);
