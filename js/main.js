@@ -178,26 +178,39 @@ function startClick() {
 	const hour = parseInt(timetokens[0]);
 	const timezone = $('timezone-dropdown').value;
 
-	//find difference between current time and projected time
+	//initialize times based on current and end times
 	// dayjs.tz.setDefault(timezone);
 	var today = dayjs()
 	var endArr = [parseInt(today.year()), today.month()+1, today.date()];
 	var endTime = dayjs(endArr).hour(hour).minute(0).second(0).millisecond(0);
+	
+	//take difference
 	var diffMins = endTime.minute()-today.minute();
-	var diffHours = endTime.hour()-today.hour();
+	var diffHours = endTime.hour()-today.hour()-1;
+	var diffSeconds = 60 - today.second();
+
+	//if it goes thru the night (ie: 22:15 -> 00:25) invert
 	if(diffMins < 0) {
 		diffMins = 60 + diffMins;
 	}
 	if(diffHours < 0) {
 		diffHours = 12 + diffHours;
 	}
-	var diff = "" + (diffHours) + ":" + (diffMins) + ":00";
-	alert("endarr: " + endArr.toString() + "\n" + endTime.toString() + "\n" + today.toString() + "\n" + diff);
+
+	//fix formatting
+	if(diffMins < 10) {
+		diffMins = "0" + diffMins.toString();
+	}
+	if(diffSeconds < 10) {
+		diffSeconds = "0" + diffSeconds.toString();
+	}
+	var diff = "" + (diffHours) + ":" + (diffMins) + ":" + diffSeconds;
+	// alert("endarr: " + endArr.toString() + "\n" + endTime.toString() + "\n" + today.toString() + "\n" + diff);
 	// var currentTime = new npmtime.date();
 	// currentTime.setTimezone(timezone, true);
 
 	//parse & subtract
-	var endTimeParsed = endTime.toString().split(" ")[4];
+	// var endTimeParsed = endTime.toString().split(" ")[4];
 	//alert(endTimeParsed);
 	$('stopwatch').innerText = diff;
 	setTimeout(decrementTimestamp, 1000);
