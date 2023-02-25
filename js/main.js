@@ -1,6 +1,12 @@
-const fs = require('fs'); //for file writing later
-var statsFilePath = null;
-var currentFilename = null;
+var dayjs = require('dayjs');
+var dayjsutc = require('dayjs/plugin/utc')
+var dayjstimezone = require('dayjs/plugin/timezone') // dependent on utc plugin
+var arraySupport = require("dayjs/plugin/arraySupport");
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.extend(arraySupport)
+
 
 //nice shortcut functions
 function $(id) {
@@ -23,17 +29,6 @@ var interface = new CSInterface();
 		slash = "/";
 		path = path.substring(8, path.length - 11);
 	}
-
-	//find and set statsfilepath
-	var home = require("os").homedir();
-	statsFilePath = home + '/stats.txt';
-	try {
-		if (!fs.existsSync(statsFilePath)) {
-			fs.open(statsFilePath, 'w', function (err, file) {
-				if (err) throw err;
-			});
-		}
-	} catch(err) {}
 
 	//block ae from using ALL keys while this window is active
 	//keyRegisterOverride();
@@ -141,6 +136,7 @@ function incrementTimer() {
 
 //decrement the timer every second
 function decrementTimestamp(time) {
+	if(time == null) { time = $('stopwatch').innerText; }
 	var tokens = time.split(":");
 	var hours = parseInt(tokens[0]);
 	var minutes = parseInt(tokens[1]);
@@ -149,10 +145,10 @@ function decrementTimestamp(time) {
 	//increment
 	seconds--;
 	if(seconds <= 0) {
-		seconds = 60; minutes--;
+		seconds = 59; minutes--;
 	}
 	if(minutes <= 0) {
-		minutes = 60; hours--;
+		minutes = 59; hours--;
 	}
 
 	//fit to string formatting
@@ -165,16 +161,47 @@ function decrementTimestamp(time) {
 	
 	//return
 	var res = hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
-	return res;
+	// alert(res);
+	$('stopwatch').innerText = res;
+	// return res;
+	setTimeout(decrementTimestamp, 1000);
+}
+
+function startClick() {
+	const time = $('time-dropdown').value;
+	const timetokens = time.trim().split(":");
+	const hour = parseInt(timetokens[0]);
+	const timezone = $('timezone-dropdown').value;
+
+	//find difference between current time and projected time
+	// dayjs.tz.setDefault(timezone);
+	var today = dayjs()
+	var endArr = [parseInt(today.year()), today.month()+1, today.date()];
+	var endTime = dayjs(endArr).hour(hour).minute(0).second(0).millisecond(0);
+	var diffMins = endTime.minute()-today.minute();
+	var diffHours = endTime.hour()-today.hour();
+	if(diffMins < 0) {
+		diffMins = 60 + diffMins;
+	}
+	if(diffHours < 0) {
+		diffHours = 12 + diffHours;
+	}
+	var diff = "" + (diffHours) + ":" + (diffMins) + ":00";
+	alert("endarr: " + endArr.toString() + "\n" + endTime.toString() + "\n" + today.toString() + "\n" + diff);
+	// var currentTime = new npmtime.date();
+	// currentTime.setTimezone(timezone, true);
+
+	//parse & subtract
+	var endTimeParsed = endTime.toString().split(" ")[4];
+	//alert(endTimeParsed);
+	$('stopwatch').innerText = diff;
+	setTimeout(decrementTimestamp, 1000);
 }
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// //only do stopwatch stuff if we're on the main page
-// try {
-// 	if(document.getElementById('stats-button').innerHTML == 'Stats') {
-// setTimeout(setTimer, 1000);
-// 	}
-// } catch(e) {}
+startClick();
+//what we need to start the countdown
+// setTimeout(decrementTimestamp, 1000);
