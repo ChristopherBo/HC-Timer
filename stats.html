@@ -1,0 +1,135 @@
+<!doctype html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/styles.css"/>
+		<script src="js/jscolor.js"></script>
+			<title>StatTracker</title>
+		<script>
+			var isNS = (navigator.appName == "Netscape") ? 1 : 0;
+
+			if(navigator.appName == "Netscape") document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP);
+
+			function mischandler(){
+				return false;
+			}
+
+			function mousehandler(e){
+				var myevent = (isNS) ? e : event;
+				var eventbutton = (isNS) ? myevent.which : myevent.button;
+				if((eventbutton==2)||(eventbutton==3)) {
+					return false;
+				}
+			}
+			document.oncontextmenu = mischandler;
+			document.onmousedown = mousehandler;
+			document.onmouseup = mousehandler;
+
+			// Here we can adjust defaults for all color pickers on page:
+			jscolor.presets.default = {
+				palette: [
+					'#000000', '#7d7d7d', '#870014', '#ec1c23', '#ff7e26', '#fef100', '#22b14b', '#00a1e7', '#3f47cc', '#a349a4',
+					'#ffffff', '#c3c3c3', '#b87957', '#feaec9', '#ffc80d', '#eee3af', '#b5e61d', '#99d9ea', '#7092be', '#c8bfe7',
+				],
+				//paletteCols: 12,
+				//hideOnPaletteClick: true,
+				//width: 271,
+				//height: 151,
+				//position: 'right',
+				//previewPosition: 'right',
+				//backgroundColor: 'rgba(51,51,51,1)', controlBorderColor: 'rgba(153,153,153,1)', buttonColor: 'rgba(240,240,240,1)',
+			}
+
+		</script>
+	</head>
+	<body scroll="no">
+	<ul class="topnav">
+		<li class="active"><a class="active" href="stats.html" style="background-color: #454545;">Stats</a></li>
+		<li><a href="preferences.html">Preferences</a></li>
+	</ul>
+
+	<table>
+		<tr>
+			<td>Time spent on current project file</td>
+			<td id="time-currentPF">0:00:00</td>
+		</tr>
+		<tr>
+			<td>Time spent rendering in current project file</td>
+			<td id="render-time">0:00:00</td>
+		</tr>
+		<tr>
+			<td>Time spent in After Effects</td>
+			<td id="time-total">0:00:00</td>
+		</tr>
+		<tr>
+			<td>Total crashes</td>
+			<td id="crash-total">0</td>
+		</tr>
+		<tr>
+			<td>&emsp;Adjustment layers</td>
+			<td id="adj-layers">0</td>
+		</tr>
+		<tr>
+			<td>&emsp;Precomps</td>
+			<td id="precomp-layers">0</td>
+		</tr>
+		<tr>
+			<td>Layers</td>
+			<td id="layers-total">0</td>
+		</tr>
+		<tr>
+			<td>Effects</td>
+			<td id="effects-total">0</td>
+		</tr>
+		<tr>
+			<td>Keyframes</td>
+			<td id="keyframes-total">0</td>
+		</tr>
+		<tr>
+			<td>&emsp;Video Files</td>
+			<td id="video-file-total">0</td>
+		</tr>
+		<tr>
+			<td>&emsp;Image Files</td>
+			<td id="image-file-total">0</td>
+		</tr>
+		<tr>
+			<td>&emsp;Audio Files</td>
+			<td id="audio-file-total">0</td>
+		</tr>
+		<tr>
+			<td>&emsp;Unused Files</td>
+			<td id="unused-file-total">0</td>
+		</tr>
+		<tr>
+			<td>Files</td>
+			<td id="file-total">0</td>
+		</tr>
+		<tr>
+			<td>Most Used Effect</td>
+			<td id="popular-effect">N/A</td>
+		</tr>
+	</table>
+	<script>
+
+		function getOS() {
+			var userAgent = window.navigator.userAgent,
+			platform = window.navigator.platform,
+			macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+			windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+			os = null;
+
+			if(macosPlatforms.indexOf(platform) != -1) {
+				os = "MAC";
+			} else if(windowsPlatforms.indexOf(platform) != -1) {
+				os = "WIN";
+			}
+			return os;
+		}
+		
+	</script>	
+	<script src="js/libs/CSInterface.js"></script>
+	<script src="js/stats.js"></script>
+	<script src="js/main.js"></script>
+	</body>
+</html>
