@@ -174,12 +174,11 @@ function decrementTimestamp(time) {
 }
 
 function startClick() {
-	// alert("hi");
 	for (var i = 0; i < timeouts.length; i++) {
 		clearTimeout(timeouts[i]);
 	}
 	timeouts = [];
-	// alert("hello")
+
 	const time = $('time-dropdown').value;
 	const timetokens = time.trim().split(":");
 
@@ -202,7 +201,6 @@ function startClick() {
 	//alert("timezone: " + timezone + "\npure offset " + new Date().getTimezoneOffset() + "\noffset: " + offset.toString());
 
 	//initialize times based on current and end times
-	// dayjs.tz.setDefault(timezone);
 	var today = dayjs();
 	var endArr = [parseInt(today.year()), today.month()+1, today.date()];
 	var endTime = dayjs(endArr).hour(hour).minute(minute).second(0).millisecond(0);
@@ -240,4 +238,4 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-startClick();
+// startClick();
