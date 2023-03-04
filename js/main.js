@@ -1,12 +1,8 @@
 var timeouts = [];
 var dayjs = require('dayjs');
-var dayjsutc = require('dayjs/plugin/utc')
-var dayjstimezone = require('dayjs/plugin/timezone') // dependent on utc plugin
 var arraySupport = require("dayjs/plugin/arraySupport");
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
-dayjs.extend(arraySupport)
+dayjs.extend(arraySupport);
 
 
 //nice shortcut functions
