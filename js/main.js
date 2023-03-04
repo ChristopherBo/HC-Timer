@@ -182,15 +182,31 @@ function startClick() {
 	// alert("hello")
 	const time = $('time-dropdown').value;
 	const timetokens = time.trim().split(":");
-	const hour = parseInt(timetokens[0]);
+
+	//absolute timezone bullshittery
+	//getTimezoneOffset gives the offset from UTC in minutes- for me (EST) that's 300 minutes (GMT-5)
+	//I then negate the whole offset to make it a timer
 	const timezone = $('timezone-dropdown').value;
+	const offset = -(new Date().getTimezoneOffset() + (parseInt(timezone)*60));
+	var hour; var minute;
+	//for the future, if i have timezones like +5.5 that don't divide evenly, this will account for that
+	if(offset % 60 != 0) {
+		hour = parseInt(timetokens[0]) + Math.floor(offset / 60);
+		minute = (offset % 60)*60;
+	} else {
+		hour = parseInt(timetokens[0]) + (offset / 60);
+		minute = 0;
+	}
+
+	//helpful debug alert
+	//alert("timezone: " + timezone + "\npure offset " + new Date().getTimezoneOffset() + "\noffset: " + offset.toString());
 
 	//initialize times based on current and end times
 	// dayjs.tz.setDefault(timezone);
 	var today = dayjs();
 	var endArr = [parseInt(today.year()), today.month()+1, today.date()];
-	var endTime = dayjs(endArr).hour(hour).minute(0).second(0).millisecond(0);
-	
+	var endTime = dayjs(endArr).hour(hour).minute(minute).second(0).millisecond(0);
+
 	//take difference
 	var diffMins = endTime.minute()-today.minute()-1;
 	var diffHours = endTime.hour()-today.hour()-1;
