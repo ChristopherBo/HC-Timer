@@ -199,6 +199,7 @@ function startClick() {
 	var diffMins = endTime.minute()-today.minute()-1;
 	var diffHours = endTime.hour()-today.hour()-1;
 	var diffSeconds = 60 - today.second();
+	//alert(diffHours + ":" + diffMins + ":" + diffSeconds);
 
 	//if it goes thru the night (ie: 22:15 -> 00:25) invert
 	if(diffMins < 0) {
@@ -217,12 +218,8 @@ function startClick() {
 	}
 	var diff = "" + (diffHours) + ":" + (diffMins) + ":" + diffSeconds;
 	// alert("endarr: " + endArr.toString() + "\n" + endTime.toString() + "\n" + today.toString() + "\n" + diff);
-	// var currentTime = new npmtime.date();
-	// currentTime.setTimezone(timezone, true);
 
 	//parse & subtract
-	// var endTimeParsed = endTime.toString().split(" ")[4];
-	//alert(endTimeParsed);
 	$('stopwatch').innerText = diff;
 	decrementTimestamp();
 }
@@ -232,5 +229,3 @@ function sleep(ms) {
 }
 
 startClick();
-//what we need to start the countdown
-// setTimeout(decrementTimestamp, 1000);
